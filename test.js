@@ -58,18 +58,29 @@ console.log(alienNumberToDecimal("LBAAA"));
 console.log(alienNumberToDecimal("RCRZCAB"));
 
 // Interactive prompt for user input
-console.log("\nInteractive Mode: Enter an alien number to convert it to decimal.\n");
+console.log("\nEnter an alien number to convert it to decimal.\n");
+console.log("Type 'end' to exit.\n");
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-rl.question("Enter alien number (e.g., AAA, LBAAA, RCRZCAB): ", (s) => {
-    let result = alienNumberToDecimal(s);
+function askInput() {
+    rl.question("Enter alien number (e.g., AAA, LBAAA, RCRZCAB): ", (s) => {
+        if (s.trim().toLowerCase() === "end") {
+            console.log("Exiting program. Goodbye!");
+            rl.close();
+            return;
+        }
 
-    console.log(`\nInput: s = "${s.toUpperCase()}"`);
-    console.log(`Output: ${result.total}`);
-    console.log("Explanation: " + result.explanation.join(', ') + ".");
+        let result = alienNumberToDecimal(s);
 
-    rl.close();
-});
+        console.log(`\nInput: s = "${s.toUpperCase()}"`);
+        console.log(`Output: ${result.total}`);
+        console.log("Explanation: " + result.explanation.join(', ') + ".\n");
+
+        askInput(); // 🔁 Repeat
+    });
+}
+
+askInput();
